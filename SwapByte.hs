@@ -1,28 +1,31 @@
 {-# LANGUAGE ForeignFunctionInterface #-}
 
-module SwapByte(swap) where
+module SwapByte(swapbyte) where
 
+import Data.Word8(Word8)
 import Foreign.Ptr(Ptr, plusPtr)
 import Foreign.Storable(peek,poke)
-import Data.Word8(Word8)
+import Control.Applicative((<*>),(<$>),(*>))
 
-foreign export ccall swap :: Ptr Word8 -> IO ()
-swap :: Ptr Word8 -> IO ()
-swap = swap1
+foreign export ccall swapbyte :: Ptr Word8 -> Int -> Int -> IO ()
+swapbyte :: Ptr Word8 -> Int -> Int -> IO ()
+swapbyte = swapbyte1
 
-swap1 :: Ptr Word8 -> IO ()
-swap1 p = (peek p3 :: IO Word8) >>= ( \b3 -> (peek p7 :: IO Word8) >>= ( \b7 -> poke p3 b7 >> poke p7 b3 ) )
+
+swapbyte1 :: Ptr Word8 -> Int -> Int -> IO ()
+swapbyte1 p o1 o2 =
+  (,) <$> (peek p1 :: IO Word8) <*> (peek p2 :: IO Word8) >>= \(b1, b2) -> poke p1 b2 *> poke p2 b1
   where
-    p3 = plusPtr p 3
-    p7 = plusPtr p 7
-         
-swap2 :: Ptr Word8 -> IO ()
-swap2 p = do
-  b3 <- peek p3 :: IO Word8
-  b7 <- peek p7 :: IO Word8
-  poke p3 b7
-  poke p7 b3
-  where
-    p3 = plusPtr p 3
-    p7 = plusPtr p 7
+    p1 = plusPtr p o1
+    p2 = plusPtr p o2
 
+swapbyte2 :: Ptr Word8 -> Int -> Int -> IO ()
+swapbyte2 p o1 o2 = do
+  let p1 = plusPtr p o1
+  let p2 = plusPtr p o2
+  b1 <- peek p1 :: IO Word8
+  b2 <- peek p2 :: IO Word8
+  poke p1 b2
+  poke p2 b1
+
+    
