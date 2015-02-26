@@ -7,7 +7,7 @@ void print_buff ( unsigned char * buff, size_t len );
 
 int main_with_haskell ( int argc, char ** argv )
 {
-  unsigned char buff[] = {100,101,102,103,104,105,106,107,108,109};
+  unsigned char buff[] = {'A','B','C','D','E','F','G','H','I','J'};
   
   print_buff(buff,sizeof(buff));
   swapbyte(buff, 2, 7);
@@ -35,7 +35,7 @@ void print_buff ( unsigned char * buff, size_t len )
   size_t i;
   for( i = 0; i < len; ++i)
     {
-      printf("%d,", buff[i]);
+      printf("%c,", buff[i]);
     }
   printf("\n");
 }
