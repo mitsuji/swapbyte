@@ -16,7 +16,15 @@ int main_with_haskell ( int argc, char ** argv )
   print_buff(buff,sizeof(buff));
   swapbyte(buff, 7, 9);
   print_buff(buff,sizeof(buff));
-
+  
+/*
+tkms@localhost ~/Documents/dev/swapbyte $ ./swapbyte 
+A,B,C,D,E,F,G,H,I,J,
+A,B,H,D,E,F,G,C,I,J,
+H,B,A,D,E,F,G,C,I,J,
+H,B,A,D,E,F,G,J,I,C,
+*/
+  
   return 0;
 }
 
